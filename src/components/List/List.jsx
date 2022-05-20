@@ -12,17 +12,25 @@ import {
 import PlaceDetails from "../PlaceDetails/PlaceDetails";
 import useStyles from "./styles.js";
 
-const List = ({ isLoading }) => {
+const List = ({
+  places,
+  type,
+  setType,
+  rating,
+  setRating,
+  childClicked,
+  isLoading,
+}) => {
   const [elRefs, setElRefs] = useState([]);
   const classes = useStyles();
-  const [type, setType] = useState("restaurants");
-  const [rating, setRating] = useState("");
 
-  const places = [
-    { name: "cool place" },
-    { name: "hot place" },
-    { name: "nice place" },
-  ];
+  useEffect(() => {
+    setElRefs((refs) =>
+      Array(places.length)
+        .fill()
+        .map((_, i) => refs[i] || createRef())
+    );
+  }, [places]);
 
   return (
     <div className={classes.container}>
@@ -52,14 +60,14 @@ const List = ({ isLoading }) => {
               value={rating}
               onChange={(e) => setRating(e.target.value)}
             >
-              <MenuItem value={0}>All</MenuItem>
-              <MenuItem value={3}>Above 3.0</MenuItem>
-              <MenuItem value={4}>Above 4.0</MenuItem>
-              <MenuItem value={4.5}>Above 4.5</MenuItem>
+              <MenuItem value=''>All</MenuItem>
+              <MenuItem value='3'>Above 3.0</MenuItem>
+              <MenuItem value='4'>Above 4.0</MenuItem>
+              <MenuItem value='4.5'>Above 4.5</MenuItem>
             </Select>
           </FormControl>
           <Grid container spacing={3} className={classes.list}>
-            {/* {places?.map((place, i) => (
+            {places?.map((place, i) => (
               <Grid ref={elRefs[i]} key={i} item xs={12}>
                 <PlaceDetails
                   selected={Number(childClicked) === i}
@@ -67,14 +75,7 @@ const List = ({ isLoading }) => {
                   place={place}
                 />
               </Grid>
-            ))} */}
-            {places?.map((place, index) => {
-              return (
-                <Grid key={index} item xs={12}>
-                  <PlaceDetails place={place} />
-                </Grid>
-              );
-            })}
+            ))}
           </Grid>
         </>
       )}
