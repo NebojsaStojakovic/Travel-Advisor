@@ -22,6 +22,7 @@ const Map = ({
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    // libraries: ["places"],
   });
 
   return isLoaded ? (
@@ -34,7 +35,6 @@ const Map = ({
         zoom={15}
         // defaultZoom={15}
         margin={[50, 50, 50, 50]}
-        // onLoad={(map) => setMap(map)}
         options={{
           disableDefaultUI: true,
           zoomControl: true,
